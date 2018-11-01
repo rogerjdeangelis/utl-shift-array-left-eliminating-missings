@@ -78,35 +78,50 @@
                                                                                                         
     ;                                                                                                   
                                                                                                         
-    data havCat2;                                                                                       
-     merge havOne havTwo;                                                                               
-     by record_id number;                                                                               
-                                                                                                        
-     array _A_[*] _character_;                                                                          
-                                                                                                        
-     _K_ = 1; drop _K_ _I_;                                                                             
-     do _I_ = 1 to dim(_A_);                                                                            
-      if _A_[_I_] NE "" then do; _A_[_K_] = _A_[_I_]; _K_ + 1; end;                                     
-     end;                                                                                               
-    run;                                                                                                
-    proc print;                                                                                         
-    run;                                                                                                
-                                                                                                        
-                                                                                                        
-    data havCat2;                                                                                       
-     merge havOne havTwo;                                                                               
-     by record_id number;                                                                               
-                                                                                                        
-     array _A_[*] _character_;                                                                          
-                                                                                                        
-     _K_ = 1; drop _K_ _I_;                                                                             
-     do _I_ = 1 to dim(_A_);                                                                            
-      if _A_[_I_] NE "" then do; _A_[_K_] = _A_[_I_]; _K_ + 1; end;                                     
-     end;                                                                                               
-    run;                                                                                                
-    proc print;                                                                                         
-    run;                                                                                                
-                                                                                                        
+        /* code */                                                   
+    data WORK.HAVONE;                                            
+    infile cards missover dsd dlm ="\";                          
+    input                                                        
+    RECORD_ID NUMBER (A1 B1 C1 A2 B2 C2) ($);                    
+    cards4;                                                      
+    0\7\a\b\c\d\e\f                                              
+    1\7\a\b\c\d\e\f                                              
+    2\2\ \ \ \ \ \                                               
+    3\1\ \a\b\c\ \                                               
+    ;;;;                                                         
+    run;                                                         
+                                                                 
+    data WORK.HAVTWO;                                            
+    infile cards missover dsd dlm ="\";;                         
+    input                                                        
+    RECORD_ID NUMBER (A1X B1X C1X A2X B2X C2X A3X B3X C3X) ($);  
+    cards4;                                                      
+    0\7\g\h\i\j\ \l\m\ \o                                        
+    1\7\g\h\i\j\k\l\m\n\o                                        
+    2\2\a\b\c\d\e\f\ \ \                                         
+    3\1\d\e\f\ \ \ \ \ \                                         
+    ;;;;                                                         
+    run;                                                         
+                                                                 
+    data havCat2;                                                
+     merge havOne havTwo;                                        
+     by record_id number;                                        
+                                                                 
+     array _A_[*] _character_;                                   
+                                                                 
+     _K_ = 1; drop _K_ _I_;                                      
+     do _I_ = 1 to dim(_A_);                                     
+      if _A_[_I_] NE " " then                                    
+        do;                                                      
+          _A_[_K_] = _A_[_I_];                                   
+          if _K_ < _I_ then _A_[_I_] = " ";                      
+                                                                 
+          _K_ + 1;                                               
+        end;                                                     
+     end;                                                        
+    run;                                                         
+                                                                 
+                                                               
     * all that is left to do is the renaming;                                                           
                                                                                                         
                                                                                                         
