@@ -120,39 +120,7 @@ data havCat2;
  end;
 run;
 
-
-
-śr., 31 paź 2018 o 16:09 Roger DeAngelis <rogerjdeangelis@gmail.com> napisał(a):
-Nice Bart
-
-All that is left is the code to do the renaming.
-
-I did not think the 'recursive shifting' would be that easy to code.
-
-Thanks again
-
-On Wed, Oct 31, 2018 at 10:57 AM Bart Jablonski <yabwon@gmail.com> wrote:
-Hi Roger,
-
-Why not just to use arrays (code below)
-
-all the best
-Bart
-
-/* the code */
-data havCat2;
- merge havOne havTwo;                                                                                              
- by record_id number; 
-
- array _A_[*] _character_;
-
- _K_ = 1; drop _K_ _I_;
- do _I_ = 1 to dim(_A_);
-  if _A_[_I_] NE "" then do; _A_[_K_] = _A_[_I_]; _K_ + 1; end;               
- end;
-run;
-proc print;
-run;                                                                             
+                                                  
                                                                                                      
 * all that is left to do is the renaming;                                                            
                                                                                                      
